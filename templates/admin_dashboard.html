@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background: #007bff;
+            color: white;
+        }
+        .logout-btn {
+            text-align: right;
+            margin-bottom: 20px;
+        }
+        .logout-btn a {
+            text-decoration: none;
+            color: white;
+            background: red;
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .count {
+            text-align: right;
+            margin-top: -20px;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="logout-btn">
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+
+    <h2>Admin Dashboard - Today's Appointments</h2>
+
+    <div class="count">
+        <span>Today's Appointments: {{ appointment_count }}</span>
+    </div>
+
+    {% if appointments %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appointment in appointments %}
+                    <tr>
+                        <td>{{ appointment['name'] }}</td>
+                        <td>{{ appointment['date'].strftime('%Y-%m-%d') }}</td>
+                        <td>{{ appointment['time'] }}</td>
+                        <td>{{ appointment['phone'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No appointments for today.</p>
+    {% endif %}
+</body>
+</html>
