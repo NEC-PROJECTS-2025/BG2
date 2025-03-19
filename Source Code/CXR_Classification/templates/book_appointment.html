@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <title>Book Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding-top: 60px; /* Adjust for fixed navbar */
+        }
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.9);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Ensure navbar is on top */
+        }
+        .navbar-brand {
+            font-size: 24px;
+            font-weight: bold;
+            color: #0080ff !important;
+        }
+        .nav-link {
+            color: #333 !important;
+            font-size: 16px;
+            margin-left: 12px;
+        }
+        .nav-link:hover {
+            color: #0080ff !important;
+        }
+        .container1 {
+            display: flex;
+            max-width: 900px;
+            width: 100%;
+            margin: auto; /* Center the container */
+        }
+        .form-container {
+            flex: 1;
+            padding: 20px;
+        }
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h2 {
+            text-align: center;
+            color: #005bb5;
+        }
+        form {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .form-row input, .form-row select {
+            flex: 1;
+        }
+        .form-row input[type="text"], 
+        .form-row input[type="number"], 
+        .form-row input[type="email"], 
+        .form-row input[type="date"] {
+            margin-bottom: 10px;
+        }
+        input, textarea, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: #0080ff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 128, 255, 0.5);
+        }
+        button {
+            background-color: #005bb5;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #003f7d;
+        }
+        label {
+            font-weight: bold;
+            margin-top: 5px;
+            display: inline-block;
+        }
+        textarea {
+            resize: none;
+        }
+        @media (max-width: 768px) {
+            .container1 {
+                flex-direction: column;
+            }
+            .form-container, .image-container {
+                width: 100%;
+            }
+            .form-row {
+                flex-direction: column;
+            }
+            .form-row input, .form-row select {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar fixed-top navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">CXR Classification</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('register') }}">Register Patient</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="{{ url_for('check_details') }}">Check Details</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('update_report') }}">Update Report</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container mt-5">
+        <div class="card">
+            <div class="row g-0">
+                <!-- Form Section -->
+                <h2 style="text-align: center;margin-top: 5px;">Book an Appointment</h2>
+
+                <div class="col-md-6">
+                    <div class="p-4">
+                        <form action="/book_appointment" method="POST">
+                            <div class="form-row mb-3">
+                                <input type="text" class="form-control" name="name" placeholder="Name" required>
+                            </div>
+                            <div class="form-row mb-3">
+                                <input type="number" class="form-control" name="age" placeholder="Age" min="1" max="120" required>
+                            </div>
+                            <div class="form-row mb-3">
+                                <input type="text" class="form-control" name="phone" placeholder="Phone Number" pattern="[0-9]{10}" 
+                                       title="Enter a valid 10-digit phone number" required>
+                            </div>
+                            <div class="form-row mb-3">
+                                <input type="email" class="form-control" name="email" placeholder="Email" required>
+                            </div>
+                            <div class="form-row mb-3">
+                                <textarea name="address" class="form-control" placeholder="Address" rows="3" required></textarea>
+                            </div>
+                            <div class="form-row mb-3">
+                                <label for="time">Preferred Time:</label>
+                                <select name="time" class="form-control" required>
+                                    <option value="" disabled selected>Select Time</option>
+                                    <option value="Morning">Morning</option>
+                                    <option value="Afternoon">Afternoon</option>
+                                    <option value="Evening">Evening</option>
+                                </select>
+                            </div>
+                            <div class="form-row mb-3">
+                                <input type="date" class="form-control" name="date" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Book Appointment</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- Image Section -->
+                <div class="col-md-6">
+                    <img src="https://5.imimg.com/data5/SELLER/Default/2021/6/UA/AU/LK/108635184/home-doctor-appointment-service-500x500.png"
+                         alt="Appointment Image" class="img-fluid" style="margin-top: 10px;height: 90%;">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
